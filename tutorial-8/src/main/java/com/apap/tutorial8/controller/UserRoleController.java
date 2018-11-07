@@ -23,15 +23,14 @@ public class UserRoleController {
 		if(user.getPassword().length() < 8 ) {
 			model.addAttribute("return","password tidak boleh kurang dari 8 karakter");
 			return "home";
+		}else if(user.getPassword().matches(".*[A-Za-z].*") && user.getPassword().matches(".*[0-9].*")) {
+			userService.addUser(user);
+			return "add-user";
 		}else {
-			if(user.getPassword().matches(".*[a-zA-Z].*") && user.getPassword().matches(".*[0-9].*")) {
-				userService.addUser(user);
-				return "add-user";
-			}else {
-				model.addAttribute("return", "password harus mengandung angka dan huruf");
-				return "home";
-			}
+			model.addAttribute("return", "password harus mengandung angka dan huruf");
+			return "home";
 		}
+		
 	}
 	
 	@RequestMapping(value = "/updatePassword/{username}", method = RequestMethod.GET)
@@ -49,7 +48,7 @@ public class UserRoleController {
 					    String konfirmPass, 
 					    Model model) {
 		UserRoleModel user = userService.getUser(username);
-		if (passBaru.length() >= 8 && passBaru.matches(".*[a-zA-Z].*") && passBaru.matches(".*[0-9].*")) {
+		if (passBaru.length() >= 8 && passBaru.matches(".*[A-Za-z].*") && passBaru.matches(".*[0-9].*")) {
 			if (passBaru.equals(konfirmPass) == false) {
 				model.addAttribute("return", "konfirmasi password tidak sama");
 				return "updatePassword";
