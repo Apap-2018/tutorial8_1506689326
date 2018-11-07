@@ -39,12 +39,15 @@ public class UserRoleController {
 		UserRoleModel user = userService.getUser(username);
 		model.addAttribute("user", user);
 		model.addAttribute("username", username);
-		model.addAttribute("msg", "");
 		return "updatePassword";
 	}
 	
 	@RequestMapping(value = "/updatePassword/{username}", method = RequestMethod.POST)
-    private String updatePasswordSubmit(@PathVariable(value="username") String username, String passLama, String passBaru, String konfirmPass, Model model) {
+   	private String updatePasswordSubmit(@PathVariable(value="username") String username, 
+					    String passLama, 
+					    String passBaru, 
+					    String konfirmPass, 
+					    Model model) {
 		UserRoleModel user = userService.getUser(username);
 		if (passBaru.length() >= 8 && passBaru.matches(".*[a-zA-Z].*") && passBaru.matches(".*[0-9].*")) {
 			if (passBaru.equals(konfirmPass) == false) {
